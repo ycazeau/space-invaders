@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # Initialize the pygame
 pygame.init()
@@ -7,22 +8,33 @@ HEIGHT = 600
 PLAYER_SIZE = 64
 
 # Create the screnn
-screen = pygame.display.set_mode((WIDTH , HEIGHT))
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
-#Caption and Icon
+# Caption and Icon
 pygame.display.set_caption("Space Invaders by Yves Ronaldo CAZEAU")
 icon = pygame.image.load('images/ufo.png')
 pygame.display.set_icon(icon)
 
 # Player
 playerImg = pygame.image.load('images/player.png')
-playerX = (WIDTH / 2 )- (PLAYER_SIZE / 2)
+playerX = (WIDTH / 2) - (PLAYER_SIZE / 2)
 playerY = 500
 playerX_change = 0
 
+# Enemy
+enemyImg = pygame.image.load('images/enemy.png')
+enemyX = random.randint(0, WIDTH)
+enemyY = random.randint( 50, 150)
+enemyX_change = 0
 
-def player(x , y):
+
+def player(x, y):
     screen.blit(playerImg, (x, y))
+
+
+def enemy(x, y):
+    screen.blit(enemyImg, (x, y))
+
 
 # Game loop
 running = True
@@ -46,10 +58,10 @@ while running:
     playerX += playerX_change
 
     if playerX <= 0:
-        playerX =0
+        playerX = 0
     elif playerX >= WIDTH - PLAYER_SIZE:
         playerX = WIDTH - PLAYER_SIZE
 
-
     player(playerX, playerY)
+    enemy(enemyX, enemyY)
     pygame.display.update()
