@@ -4,6 +4,7 @@ import pygame
 pygame.init()
 WIDTH = 800
 HEIGHT = 600
+PLAYER_SIZE = 64
 
 # Create the screnn
 screen = pygame.display.set_mode((WIDTH , HEIGHT))
@@ -15,7 +16,7 @@ pygame.display.set_icon(icon)
 
 # Player
 playerImg = pygame.image.load('images/player.png')
-playerX = 370
+playerX = (WIDTH / 2 )- (PLAYER_SIZE / 2)
 playerY = 500
 playerX_change = 0
 
@@ -43,5 +44,12 @@ while running:
                 playerX_change = 0
 
     playerX += playerX_change
+
+    if playerX <= 0:
+        playerX =0
+    elif playerX >= WIDTH - PLAYER_SIZE:
+        playerX = WIDTH - PLAYER_SIZE
+
+
     player(playerX, playerY)
     pygame.display.update()
