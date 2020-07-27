@@ -3,12 +3,11 @@ import random
 
 # Initialize the pygame
 pygame.init()
-WIDTH = 800
-HEIGHT = 600
+screen_size = WIDTH, HEIGHT = 800, 600
 PLAYER_SIZE = 64
 
-# Create the screnn
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+# Create the screen
+screen = pygame.display.set_mode(screen_size)
 
 # Caption and Icon
 pygame.display.set_caption("Space Invaders by Yves Ronaldo CAZEAU")
@@ -24,8 +23,9 @@ playerX_change = 0
 # Enemy
 enemyImg = pygame.image.load('images/enemy.png')
 enemyX = random.randint(0, WIDTH)
-enemyY = random.randint( 50, 150)
-enemyX_change = 0
+enemyY = random.randint(50, 150)
+enemyX_change = 0.3
+enemyY_change = 40
 
 
 def player(x, y):
@@ -55,12 +55,21 @@ while running:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 playerX_change = 0
 
+    # Define Boundaries for the player so it's doesn't go out of bounds
     playerX += playerX_change
-
     if playerX <= 0:
         playerX = 0
     elif playerX >= WIDTH - PLAYER_SIZE:
         playerX = WIDTH - PLAYER_SIZE
+
+    # Define Boundaries for the enemy so it's doesn't go out of bounds
+    enemyX += enemyX_change
+    if enemyX <= 0:
+        enemyX_change = 0.3
+        enemyY += enemyY_change
+    elif enemyX >= WIDTH - PLAYER_SIZE:
+        enemyX_change = -0.3
+        enemyY += enemyY_change
 
     player(playerX, playerY)
     enemy(enemyX, enemyY)
