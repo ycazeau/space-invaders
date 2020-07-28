@@ -27,8 +27,8 @@ playerX_change = 0
 enemyImg = pygame.image.load('images/enemy.png')
 enemyX = random.randint(0, WIDTH)
 enemyY = random.randint(50, 150)
-enemyX_change = 4
-enemyY_change = 40
+enemyX_change = 2
+enemyY_change = 30
 
 # Bullet
 # Ready - You can't see the nullet on the screen
@@ -72,7 +72,10 @@ while running:
             if event.key == pygame.K_RIGHT:
                 playerX_change = 5
             if event.key == pygame.K_SPACE:
-                fire_bullet(playerX, bulletY)
+                if bullet_state is "ready":
+                    # Get the current x cordinate of the spaceship
+                    bulletX = playerX
+                    fire_bullet(bulletX, bulletY)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -88,15 +91,19 @@ while running:
     # Define Boundaries for the enemy so it's doesn't go out of bounds
     enemyX += enemyX_change
     if enemyX <= 0:
-        enemyX_change = 4
+        enemyX_change = 2
         enemyY += enemyY_change
     elif enemyX >= WIDTH - PLAYER_SIZE:
-        enemyX_change = -4
+        enemyX_change = -2
         enemyY += enemyY_change
 
     # Bullet Movement
+    if bulletY <= 0:
+        bulletY = playerY
+        bullet_state = "ready"
+
     if bullet_state is "fire":
-        fire_bullet(playerX, playerY)
+        fire_bullet(bulletX, bulletY)
         bulletY -= bulletY_change
 
     player(playerX, playerY)
